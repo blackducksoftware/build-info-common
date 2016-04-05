@@ -1,0 +1,72 @@
+{ 
+"buildId" : "testBuildId",
+"buildArtifact": {
+"type" : "org.gradle",
+"group" : "com.blackducksoftware.gradle.test",
+"artifact" : "projectToTestGradlePlugin",
+"version" : "99.5-SNAPSHOT",
+"id" : "com.blackducksoftware.gradle.test:projectToTestGradlePlugin:99.5-SNAPSHOT"
+},
+"dependencies" : [
+{ 
+"group" : "com.google.code.findbugs",
+"artifact" : "findbugs",
+"version" : "2.0.1",
+"scopes" : ["compile", "default", "runtime", "testCompile", "testRuntime"], 
+"id" : "com.google.code.findbugs:findbugs:2.0.1"
+} , { 
+"group" : "commons-codec",
+"artifact" : "commons-codec",
+"version" : "1.8",
+"scopes" : ["compile", "default", "runtime", "testCompile", "testRuntime"], 
+"id" : "commons-codec:commons-codec:1.8"
+} , { 
+"group" : "org.mockito",
+"artifact" : "mockito-all",
+"version" : "1.9.5",
+"scopes" : ["testCompile", "testRuntime"], 
+"id" : "org.mockito:mockito-all:1.9.5"
+} , { 
+"group" : "log4j",
+"artifact" : "log4j",
+"version" : "1.2.17",
+"scopes" : ["compile", "default", "runtime", "testCompile", "testRuntime"], 
+"id" : "log4j:log4j:1.2.17"
+} , { 
+"group" : "net.sf.opencsv",
+"artifact" : "opencsv",
+"version" : "2.3",
+"scopes" : ["compile", "default", "runtime", "testCompile", "testRuntime"], 
+"id" : "net.sf.opencsv:opencsv:2.3"
+} , { 
+"group" : "org.apache.ant",
+"artifact" : "ant",
+"version" : "1.7.1",
+"scopes" : ["compile", "default", "runtime", "testCompile", "testRuntime"], 
+"id" : "org.apache.ant:ant:1.7.1"
+} , { 
+"group" : "org.apache.ant",
+"artifact" : "ant-testutil",
+"version" : "1.7.1",
+"scopes" : ["testCompile", "testRuntime"], 
+"id" : "org.apache.ant:ant-testutil:1.7.1"
+} , { 
+"group" : "junit",
+"artifact" : "junit",
+"version" : "4.11",
+"scopes" : ["testCompile", "testRuntime"], 
+"id" : "junit:junit:4.11"
+} , { 
+"group" : "com.blackducksoftware.plugins",
+"artifact" : "protex-plugin-integration",
+"version" : "1.0.2",
+"scopes" : ["compile", "default", "runtime", "testCompile", "testRuntime"], 
+"id" : "com.blackducksoftware.plugins:protex-plugin-integration:1.0.2"
+} , { 
+"group" : "org.apache.cxf",
+"artifact" : "cxf-bundle",
+"version" : "2.7.7",
+"scopes" : ["compile", "default", "runtime", "testCompile", "testRuntime"], 
+"id" : "org.apache.cxf:cxf-bundle:2.7.7"
+} ] 
+} 

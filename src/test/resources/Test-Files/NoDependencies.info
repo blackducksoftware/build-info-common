@@ -1,0 +1,12 @@
+{
+  "buildId": "2014-03-05_15-28-48",
+  "buildArtifact": {
+  "type": "org.apache.maven",
+  "group": "test",
+  "artifact": "my-project",
+  "version": "1.0",
+  "id": "test:my-project:jar:1.0"
+  },
+  "dependencies": [ 
+  ]
+}
