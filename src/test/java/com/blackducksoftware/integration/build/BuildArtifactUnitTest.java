@@ -72,15 +72,15 @@ public class BuildArtifactUnitTest {
 	@Test
 	public void testToString() {
 		final BuildArtifact artifact = new BuildArtifact();
-		assertEquals(artifact.toString(),
-				"BuildArtifact [type=null, group=null, artifact=null, version=null, id=null]");
+		assertEquals("BuildArtifact [type=null, group=null, artifact=null, version=null, id=null]",
+				artifact.toString());
 		artifact.setArtifact(NEW_ARTIFACT);
 		artifact.setGroup(NEW_GROUP);
 		artifact.setId(NEW_ID);
 		artifact.setType(NEW_TYPE);
 		artifact.setVersion(NEW_VERSION);
-		assertEquals("BuildArtifact [type=" + NEW_TYPE + ", group=" + NEW_GROUP + ", artifact=" + NEW_ARTIFACT
-				+ ", version=" + NEW_VERSION + ", id=" + NEW_ID + "]", artifact.toString());
+		assertEquals(artifact.toString(), "BuildArtifact [type=" + NEW_TYPE + ", group=" + NEW_GROUP + ", artifact="
+				+ NEW_ARTIFACT + ", version=" + NEW_VERSION + ", id=" + NEW_ID + "]");
 	}
 
 }
