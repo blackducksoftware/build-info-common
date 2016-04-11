@@ -245,7 +245,7 @@ public class BuildDependencyUnitTest {
 
 		dependency = new BuildDependency();
 		assertEquals(
-				"BuildDependency [group=null, artifact=null, version=null, classifier=null, scopes=[], extension=null, matchType=UNKNOWNMATCH, projectName=null, versionName=null, licenseName=null, vulnerabilityCounts=VulnerabilityCounts [low=0, medium=0, high=0]]",
+				"BuildDependency [group=null, artifact=null, version=null, id=null, classifier=null, scopes=[], extension=null, matchType=UNKNOWNMATCH, projectName=null, versionName=null, licenseName=null, vulnerabilityCounts=VulnerabilityCounts [low=0, medium=0, high=0]]",
 				dependency.toString());
 
 		dependency.setArtifact("TEST");
@@ -265,7 +265,7 @@ public class BuildDependencyUnitTest {
 
 		dependency.getScopes().add("TEST");
 		assertEquals(
-				"BuildDependency [group=TEST, artifact=TEST, version=TEST, classifier=TEST, scopes=[TEST], extension=TEST, matchType=PROJECTFOUND, projectName=TEST, versionName=TEST, licenseName=TEST, vulnerabilityCounts=VulnerabilityCounts [low=20, medium=30, high=40]]",
+				"BuildDependency [group=TEST, artifact=TEST, version=TEST, id=TEST:TEST:TEST, classifier=TEST, scopes=[TEST], extension=TEST, matchType=PROJECTFOUND, projectName=TEST, versionName=TEST, licenseName=TEST, vulnerabilityCounts=VulnerabilityCounts [low=20, medium=30, high=40]]",
 				dependency.toString());
 	}
 
