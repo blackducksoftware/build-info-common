@@ -26,7 +26,7 @@ public class BuildArtifactUnitTest {
 	private static final String NEW_TYPE = "NewType";
 	private static final String NEW_GROUP = "NewGroup";
 	private static final String NEW_ARTIFACT = "New artifact";
-	private static final String NEW_ID = "new ID";
+	private static final String NEW_ID = "NewGroup:New artifact:new VERSION";
 	private static final String NEW_VERSION = "new VERSION";
 
 	@Test
@@ -57,8 +57,10 @@ public class BuildArtifactUnitTest {
 	public void testGetId() {
 		final BuildArtifact artifact = new BuildArtifact();
 		assertEquals(artifact.getId(), null);
-		artifact.setId(NEW_ID);
-		assertEquals(artifact.getId(), NEW_ID);
+		artifact.setGroup("lotsOfMonkeys");
+		artifact.setArtifact("onlyAFewMonkeys");
+		artifact.setVersion("aVersionForMonkeys");
+		assertEquals(artifact.getId(), "lotsOfMonkeys:onlyAFewMonkeys:aVersionForMonkeys");
 	}
 
 	@Test
@@ -76,7 +78,6 @@ public class BuildArtifactUnitTest {
 				artifact.toString());
 		artifact.setArtifact(NEW_ARTIFACT);
 		artifact.setGroup(NEW_GROUP);
-		artifact.setId(NEW_ID);
 		artifact.setType(NEW_TYPE);
 		artifact.setVersion(NEW_VERSION);
 		assertEquals(artifact.toString(), "BuildArtifact [type=" + NEW_TYPE + ", group=" + NEW_GROUP + ", artifact="

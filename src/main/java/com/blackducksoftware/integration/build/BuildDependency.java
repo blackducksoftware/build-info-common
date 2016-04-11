@@ -22,18 +22,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class BuildDependency {
-	public static final String MATCH_TYPE = "matchType";
-	public static final String PROJECT_NAME = "projectName";
-	public static final String VERSION_NAME = "versionName";
-	public static final String LICENSE_NAME = "licenseName";
-	public static final String VULNERABILITY_COUNTS = "vulnerabilityCounts";
-	public static final String LOW_VULNERABILITY = "low";
-	public static final String MEDIUM_VULNERABILITY = "medium";
-	public static final String HIGH_VULNERABILITY = "high";
-
 	private String group;
 	private String artifact;
 	private String version;
+	private String id;
 	private String classifier;
 	private Set<String> scopes = new HashSet<String>();;
 	private String extension;
@@ -42,6 +34,27 @@ public class BuildDependency {
 	private String versionName;
 	private String licenseName;
 	private VulnerabilityCounts vulnerabilityCounts = new VulnerabilityCounts();
+
+	private void setId() {
+		if (null != group && null != artifact && null != version) {
+			id = group + ":" + artifact + ":" + version;
+		}
+	}
+
+	public void setGroup(final String group) {
+		this.group = group;
+		setId();
+	}
+
+	public void setArtifact(final String artifact) {
+		this.artifact = artifact;
+		setId();
+	}
+
+	public void setVersion(final String version) {
+		this.version = version;
+		setId();
+	}
 
 	@Override
 	public String toString() {
@@ -52,6 +65,8 @@ public class BuildDependency {
 		builder.append(artifact);
 		builder.append(", version=");
 		builder.append(version);
+		builder.append(", id=");
+		builder.append(id);
 		builder.append(", classifier=");
 		builder.append(classifier);
 		builder.append(", scopes=");
@@ -80,6 +95,7 @@ public class BuildDependency {
 		result = prime * result + ((classifier == null) ? 0 : classifier.hashCode());
 		result = prime * result + ((extension == null) ? 0 : extension.hashCode());
 		result = prime * result + ((group == null) ? 0 : group.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((licenseName == null) ? 0 : licenseName.hashCode());
 		result = prime * result + ((matchType == null) ? 0 : matchType.hashCode());
 		result = prime * result + ((projectName == null) ? 0 : projectName.hashCode());
@@ -128,6 +144,13 @@ public class BuildDependency {
 				return false;
 			}
 		} else if (!group.equals(other.group)) {
+			return false;
+		}
+		if (id == null) {
+			if (other.id != null) {
+				return false;
+			}
+		} else if (!id.equals(other.id)) {
 			return false;
 		}
 		if (licenseName == null) {
@@ -182,24 +205,16 @@ public class BuildDependency {
 		return group;
 	}
 
-	public void setGroup(final String group) {
-		this.group = group;
-	}
-
 	public String getArtifact() {
 		return artifact;
-	}
-
-	public void setArtifact(final String artifact) {
-		this.artifact = artifact;
 	}
 
 	public String getVersion() {
 		return version;
 	}
 
-	public void setVersion(final String version) {
-		this.version = version;
+	public String getId() {
+		return id;
 	}
 
 	public String getClassifier() {

@@ -1,0 +1,32 @@
+{
+  "buildId": "testBuildId",
+  "buildArtifact": {
+    "type": "TestString",
+    "group": "TestString",
+    "artifact": "TestString",
+    "version": "TestString",
+    "id": "TestString:TestString:TestString"
+  },
+  "dependencies": [
+    {
+      "matchType": "PROJECTFOUND",
+      "group": "TestString",
+      "artifact": "TestString",
+      "version": "TestString",
+      "classifier": "TestString",
+      "extension": "TestString",
+      "scopes": [
+        "TestString"
+      ],
+      "id": "TestString:TestString:TestString",
+      "projectName": "TestString",
+      "versionName": "TestString",
+      "licenseName": "TestString",
+      "vulnerabilityCounts": {
+        "low": 0,
+        "medium": 123,
+        "high": 456
+      }
+    }
+  ]
+}

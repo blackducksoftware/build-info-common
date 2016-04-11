@@ -29,6 +29,27 @@ public class BuildArtifact implements Serializable {
 	private String version = null;
 	private String id = null;
 
+	private void setId() {
+		if (null != group && null != artifact && null != version) {
+			id = group + ":" + artifact + ":" + version;
+		}
+	}
+
+	public void setGroup(final String group) {
+		this.group = group;
+		setId();
+	}
+
+	public void setArtifact(final String artifact) {
+		this.artifact = artifact;
+		setId();
+	}
+
+	public void setVersion(final String version) {
+		this.version = version;
+		setId();
+	}
+
 	@Override
 	public String toString() {
 		final StringBuilder builder = new StringBuilder();
@@ -120,32 +141,16 @@ public class BuildArtifact implements Serializable {
 		return group;
 	}
 
-	public void setGroup(final String group) {
-		this.group = group;
-	}
-
 	public String getArtifact() {
 		return artifact;
-	}
-
-	public void setArtifact(final String artifact) {
-		this.artifact = artifact;
 	}
 
 	public String getVersion() {
 		return version;
 	}
 
-	public void setVersion(final String version) {
-		this.version = version;
-	}
-
 	public String getId() {
 		return id;
-	}
-
-	public void setId(final String id) {
-		this.id = id;
 	}
 
 }

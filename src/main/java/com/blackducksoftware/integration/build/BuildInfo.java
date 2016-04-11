@@ -39,17 +39,6 @@ import com.google.gson.JsonSyntaxException;
 public class BuildInfo implements Serializable {
 	private static final long serialVersionUID = -6057646365673191391L;
 
-	public static final String BUILD_ID = "buildId";
-	public static final String BUILD_ARTIFACT = "buildArtifact";
-	public static final String GRADLE_TYPE = "org.gradle";
-	public static final String MAVEN_TYPE = "org.apache.maven";
-	public static final String TYPE = "type";
-	public static final String ID = "id";
-	public static final String SCOPE = "scope";
-	public static final String VERSION = "version";
-	public static final String ARTIFACT = "artifact";
-	public static final String GROUP = "group";
-	public static final String DEPENDENCIES = "dependencies";
 	public static final String OUTPUT_FILE_NAME = "build-info.json";
 
 	private final transient Logger logger = LoggerFactory.getLogger(BuildInfo.class);

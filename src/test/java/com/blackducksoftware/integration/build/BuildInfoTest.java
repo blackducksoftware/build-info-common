@@ -27,11 +27,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -40,8 +42,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 public class BuildInfoTest {
-	private static final String TEST_JSON_STRING = "{\"buildId\":\"testBuildId\",\"buildArtifact\":{\"type\":\"TestString\",\"group\":\"TestString\",\"artifact\":\"TestString\",\"version\":\"TestString\",\"id\":\"TestString:TestString:TestString\"},\"dependencies\":[{\"matchType\":\"PROJECTFOUND\",\"group\":\"TestString\",\"artifact\":\"TestString\",\"version\":\"TestString\",\"scopes\":[\"TestString\"],\"id\":\"TestString:TestString:TestString\",\"projectName\":\"TestString\",\"versionName\":\"TestString\",\"licenseName\":\"TestString\",\"vulnerabilityCounts\":{\"low\":0,\"medium\":123,\"high\":456}}]}";
-
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
 
@@ -55,7 +55,6 @@ public class BuildInfoTest {
 		artifact.setGroup("TestString");
 		artifact.setArtifact("TestString");
 		artifact.setVersion("TestString");
-		artifact.setId("TestString:TestString:TestString");
 
 		buildInfo.setBuildArtifact(artifact);
 
@@ -87,13 +86,18 @@ public class BuildInfoTest {
 		final Gson gson = new Gson();
 		final String jsonString = gson.toJson(buildInfo);
 
-		assertEquals(TEST_JSON_STRING, jsonString);
+		final String testBuildInfo = getFileContents("testBuildInfo.json");
+		final BuildInfo expectedBuildInfo = gson.fromJson(testBuildInfo, BuildInfo.class);
+		final String expectedJson = gson.toJson(expectedBuildInfo);
+
+		assertEquals(expectedJson, jsonString);
 	}
 
 	@Test
 	public void deSerializeJsonStringToObjects() throws Exception {
+		final String testBuildInfo = getFileContents("testBuildInfo.json");
 		final Gson gson = new Gson();
-		final BuildInfo buildInfo = gson.fromJson(TEST_JSON_STRING, BuildInfo.class);
+		final BuildInfo buildInfo = gson.fromJson(testBuildInfo, BuildInfo.class);
 		assertEquals("testBuildId", buildInfo.getBuildId());
 		assertEquals("TestString", buildInfo.getBuildArtifact().getType());
 		assertEquals("TestString", buildInfo.getBuildArtifact().getGroup());
@@ -258,7 +262,6 @@ public class BuildInfoTest {
 		final BuildArtifact artifact = new BuildArtifact();
 		artifact.setArtifact("someArtifact");
 		artifact.setGroup("someGroup");
-		artifact.setId("artifactID");
 		artifact.setType("someType");
 		artifact.setVersion("someVersion");
 		buildInfo.setBuildArtifact(artifact);
@@ -320,7 +323,7 @@ public class BuildInfoTest {
 		assertTrue(readerOutput.contains("\"group\": \"someGroup2\","));
 		assertTrue(readerOutput.contains("\"artifact\": \"someID2\","));
 		assertTrue(readerOutput.contains("\"version\": \"someVersion2\","));
-		assertTrue(readerOutput.contains("\"scope\": ["));
+		assertTrue(readerOutput.contains("\"scopes\": ["));
 		assertTrue(readerOutput.contains("\"someScope2\""));
 		assertTrue(readerOutput.contains("\"id\": \"someGroup2:someID2:someVersion2\""));
 		assertTrue(readerOutput.contains("\"group\": \"someGroup\","));
@@ -339,6 +342,12 @@ public class BuildInfoTest {
 		if ((buildInfo.getDependencies().size() != 10)) {
 			throw new Exception("Incorrect parsing for the file with no Dependencies and some invalid parts.");
 		}
+	}
+
+	private String getFileContents(final String filename) throws IOException {
+		final InputStream inputStream = getInputStream(filename);
+		final String fileContents = IOUtils.toString(inputStream);
+		return fileContents;
 	}
 
 	private File getFile(final String filename) {
