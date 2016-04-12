@@ -56,6 +56,21 @@ public class BuildDependencyUnitTest {
 	}
 
 	@Test
+	public void testGetId() {
+		final BuildDependency dependency = new BuildDependency();
+		assertNull(dependency.getId());
+
+		dependency.setVersion("version");
+		assertNull(dependency.getId());
+
+		dependency.setArtifact("artifact");
+		assertEquals(dependency.getId(), "artifact:version");
+
+		dependency.setGroup("group");
+		assertEquals(dependency.getId(), "group:artifact:version");
+	}
+
+	@Test
 	public void testSetClassifier() {
 		final BuildDependency dependency = new BuildDependency();
 		dependency.setClassifier(null);

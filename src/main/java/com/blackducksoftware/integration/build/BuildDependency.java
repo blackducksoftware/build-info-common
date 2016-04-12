@@ -38,6 +38,8 @@ public class BuildDependency {
 	private void setId() {
 		if (null != group && null != artifact && null != version) {
 			id = group + ":" + artifact + ":" + version;
+		} else if (null != artifact && null != version) {
+			id = artifact + ":" + version;
 		}
 	}
 
