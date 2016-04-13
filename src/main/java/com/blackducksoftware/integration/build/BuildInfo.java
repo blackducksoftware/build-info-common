@@ -27,7 +27,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -40,64 +39,13 @@ import com.google.gson.JsonSyntaxException;
 public class BuildInfo implements Serializable {
 	private static final long serialVersionUID = -6057646365673191391L;
 
-	public static final String BUILD_ID = "buildId";
-	public static final String BUILD_ARTIFACT = "buildArtifact";
-	public static final String GRADLE_TYPE = "org.gradle";
-	public static final String MAVEN_TYPE = "org.apache.maven";
-	public static final String TYPE = "type";
-	public static final String ID = "id";
-	public static final String SCOPE = "scope";
-	public static final String VERSION = "version";
-	public static final String ARTIFACT = "artifact";
-	public static final String GROUP = "group";
-	public static final String DEPENDENCIES = "dependencies";
 	public static final String OUTPUT_FILE_NAME = "build-info.json";
 
-	private final transient Logger logger;
-	private String buildId = null;
-	private BuildArtifact buildArtifact = null;
-	private Set<BuildDependency> dependencies;
+	private final transient Logger logger = LoggerFactory.getLogger(BuildInfo.class);
 
-	public BuildInfo() {
-		logger = LoggerFactory.getLogger(BuildInfo.class);
-		dependencies = new HashSet<BuildDependency>();
-	}
-
-	public Set<? extends BuildDependency> getDependencies() {
-		return dependencies;
-	}
-
-	public void setDependencies(final Set<? extends BuildDependency> dependencies) {
-		this.dependencies = new HashSet<BuildDependency>(dependencies);
-	}
-
-	public BuildArtifact getArtifact() {
-		return buildArtifact;
-	}
-
-	public void setArtifact(final BuildArtifact artifact) {
-		buildArtifact = artifact;
-	}
-
-	public String getBuildId() {
-		return buildId;
-	}
-
-	public void addArtifact(final BuildArtifact artifact) throws IOException {
-		buildArtifact = artifact;
-	}
-
-	public void addDependencies(final List<? extends BuildDependency> dependencies) throws IOException {
-		this.dependencies.addAll(dependencies);
-	}
-
-	public void addDependencies(final Set<? extends BuildDependency> dependencies) throws IOException {
-		this.dependencies.addAll(dependencies);
-	}
-
-	public void setBuildId(final String buildId) {
-		this.buildId = buildId;
-	}
+	private String buildId;
+	private BuildArtifact buildArtifact;
+	private Set<BuildDependency> dependencies = new HashSet<BuildDependency>();
 
 	/**
 	 * Serializes the build info object to a JSON string.
@@ -121,9 +69,7 @@ public class BuildInfo implements Serializable {
 				file.getParentFile().mkdirs();
 			}
 			file.createNewFile();
-			final Gson gsonJsonGenerator = new GsonBuilder()
-					.registerTypeAdapter(BuildInfo.class, new BuildInfoSerializer()).serializeNulls()
-					.setPrettyPrinting().create();
+			final Gson gsonJsonGenerator = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
 			final String buildInfoJsonString = gsonJsonGenerator.toJson(this);
 			final FileWriter fw = new FileWriter(file.getAbsoluteFile());
 			final BufferedWriter bw = new BufferedWriter(fw);
@@ -197,10 +143,8 @@ public class BuildInfo implements Serializable {
 			throw new IllegalArgumentException("You must provide the content of the build-info file.");
 		}
 
-		final Gson gsonDeserializer = new GsonBuilder()
-				.registerTypeAdapter(BuildInfo.class, new BuildInfoDeSerializer()).create();
-
-		final BuildInfo buildInfo = gsonDeserializer.fromJson(content, BuildInfo.class);
+		final Gson gson = new Gson();
+		final BuildInfo buildInfo = gson.fromJson(content, BuildInfo.class);
 
 		if (expectedBuildId.equals(buildInfo.getBuildId())) {
 			logger.info("The " + BuildInfo.OUTPUT_FILE_NAME + " file is current.");
@@ -213,8 +157,21 @@ public class BuildInfo implements Serializable {
 		}
 
 		setBuildId(buildInfo.getBuildId());
-		setArtifact(buildInfo.getArtifact());
+		setBuildArtifact(buildInfo.getBuildArtifact());
 		setDependencies(buildInfo.getDependencies());
+	}
+
+	@Override
+	public String toString() {
+		final StringBuilder builder = new StringBuilder();
+		builder.append("BuildInfo [buildId=");
+		builder.append(buildId);
+		builder.append(", buildArtifact=");
+		builder.append(buildArtifact);
+		builder.append(", dependencies=");
+		builder.append(dependencies);
+		builder.append("]");
+		return builder.toString();
 	}
 
 	@Override
@@ -257,62 +214,34 @@ public class BuildInfo implements Serializable {
 			if (other.dependencies != null) {
 				return false;
 			}
-		} else {
-			if (other.dependencies == null) {
-				return false;
-			}
-			if (dependencies != null) {
-				if (dependencies.size() != other.dependencies.size()) {
-					return false;
-				} else {
-					if (dependencies.size() > 0) {
-						for (final BuildDependency currDep : dependencies) {
-							// contains method on the Set was causing issues
-							boolean found = false;
-							for (final BuildDependency otherCurrDep : other.dependencies) {
-								if (otherCurrDep.equals(currDep)) {
-									found = true;
-									break;
-								}
-							}
-							if (!found) {
-								return false;
-							}
-						}
-					}
-				}
-			}
+		} else if (!dependencies.equals(other.dependencies)) {
+			return false;
 		}
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		final StringBuilder builder = new StringBuilder();
-		builder.append("BuildInfo [");
-		builder.append("buildId=");
-		builder.append(buildId);
-		if (buildArtifact != null) {
-			builder.append(", ");
-			builder.append("buildArtifact=");
-			builder.append(buildArtifact.toString());
-		}
-		if (dependencies != null) {
-			builder.append(", ");
-			builder.append("dependencies=");
-			int i = 0;
-			for (final BuildDependency currDep : dependencies) {
-				if (i == 0) {
-					builder.append(currDep.toString());
-				} else {
-					builder.append(", ");
-					builder.append(currDep.toString());
-				}
-				i++;
-			}
-		}
-		builder.append("]");
-		return builder.toString();
+	public String getBuildId() {
+		return buildId;
+	}
+
+	public void setBuildId(final String buildId) {
+		this.buildId = buildId;
+	}
+
+	public BuildArtifact getBuildArtifact() {
+		return buildArtifact;
+	}
+
+	public void setBuildArtifact(final BuildArtifact buildArtifact) {
+		this.buildArtifact = buildArtifact;
+	}
+
+	public Set<BuildDependency> getDependencies() {
+		return dependencies;
+	}
+
+	public void setDependencies(final Set<BuildDependency> dependencies) {
+		this.dependencies = dependencies;
 	}
 
 }

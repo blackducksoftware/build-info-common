@@ -18,90 +18,75 @@
  *******************************************************************************/
 package com.blackducksoftware.integration.build;
 
-import java.io.Serializable;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-public class BuildDependency implements Serializable {
-	private static final long serialVersionUID = 7110967596618980400L;
-
+public class BuildDependency {
 	private String group;
 	private String artifact;
 	private String version;
+	private String id;
 	private String classifier;
-	private List<String> scope;
+	private Set<String> scopes = new HashSet<String>();;
 	private String extension;
+	private MatchType matchType = MatchType.UNKNOWNMATCH;
+	private String projectName;
+	private String versionName;
+	private String licenseName;
+	private VulnerabilityCounts vulnerabilityCounts = new VulnerabilityCounts();
 
-	public String getGroup() {
-		return group;
+	private void setId() {
+		if (null != group && null != artifact && null != version) {
+			id = group + ":" + artifact + ":" + version;
+		} else if (null != artifact && null != version) {
+			id = artifact + ":" + version;
+		}
 	}
 
 	public void setGroup(final String group) {
 		this.group = group;
-	}
-
-	public String getArtifact() {
-		return artifact;
+		setId();
 	}
 
 	public void setArtifact(final String artifact) {
 		this.artifact = artifact;
-	}
-
-	public String getVersion() {
-		return version;
+		setId();
 	}
 
 	public void setVersion(final String version) {
 		this.version = version;
-	}
-
-	public String getClassifier() {
-		return classifier;
-	}
-
-	public void setClassifier(final String classifier) {
-		this.classifier = classifier;
-	}
-
-	public List<String> getScope() {
-		return scope;
-	}
-
-	public void setScope(final List<String> newScopes) {
-		if (newScopes != null) {
-			for (String scope : newScopes) {
-				if (scope == null) {
-					scope = "";
-				}
-
-			}
-			scope = newScopes;
-		}
-	}
-
-	public String getExtension() {
-		return extension;
-	}
-
-	public void setExtension(final String extension) {
-		this.extension = extension;
+		setId();
 	}
 
 	@Override
 	public String toString() {
-		String scopes = null;
-		if (scope != null) {
-			for (final String currScope : scope) {
-				if (scopes == null) {
-					scopes = currScope;
-				} else {
-					scopes = scopes + ", " + currScope;
-				}
-			}
-		}
-
-		return "BuildDependency [group=" + group + ", artifactId=" + artifact + ", version=" + version + ", classifier="
-				+ classifier + ", scopes=" + scopes + ", extension=" + extension + "]";
+		final StringBuilder builder = new StringBuilder();
+		builder.append("BuildDependency [group=");
+		builder.append(group);
+		builder.append(", artifact=");
+		builder.append(artifact);
+		builder.append(", version=");
+		builder.append(version);
+		builder.append(", id=");
+		builder.append(id);
+		builder.append(", classifier=");
+		builder.append(classifier);
+		builder.append(", scopes=");
+		builder.append(scopes);
+		builder.append(", extension=");
+		builder.append(extension);
+		builder.append(", matchType=");
+		builder.append(matchType);
+		builder.append(", projectName=");
+		builder.append(projectName);
+		builder.append(", versionName=");
+		builder.append(versionName);
+		builder.append(", licenseName=");
+		builder.append(licenseName);
+		builder.append(", vulnerabilityCounts=");
+		builder.append(vulnerabilityCounts);
+		builder.append("]");
+		return builder.toString();
 	}
 
 	@Override
@@ -112,8 +97,14 @@ public class BuildDependency implements Serializable {
 		result = prime * result + ((classifier == null) ? 0 : classifier.hashCode());
 		result = prime * result + ((extension == null) ? 0 : extension.hashCode());
 		result = prime * result + ((group == null) ? 0 : group.hashCode());
-		result = prime * result + ((scope == null) ? 0 : scope.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((licenseName == null) ? 0 : licenseName.hashCode());
+		result = prime * result + ((matchType == null) ? 0 : matchType.hashCode());
+		result = prime * result + ((projectName == null) ? 0 : projectName.hashCode());
+		result = prime * result + ((scopes == null) ? 0 : scopes.hashCode());
 		result = prime * result + ((version == null) ? 0 : version.hashCode());
+		result = prime * result + ((versionName == null) ? 0 : versionName.hashCode());
+		result = prime * result + ((vulnerabilityCounts == null) ? 0 : vulnerabilityCounts.hashCode());
 		return result;
 	}
 
@@ -157,41 +148,37 @@ public class BuildDependency implements Serializable {
 		} else if (!group.equals(other.group)) {
 			return false;
 		}
-		if (scope == null) {
-			if (other.scope != null) {
+		if (id == null) {
+			if (other.id != null) {
 				return false;
 			}
-		} else {
-			if (other.getScope() == null) {
-				return false;
-			}
-
-			if (other.getScope() == null) {
-				return false;
-			}
-			if (getScope() != null) {
-				if (getScope().size() != other.getScope().size()) {
-					return false;
-				} else {
-					if (getScope().size() > 0) {
-						for (final String currScope : getScope()) {
-							// contains method on the List was causing issues
-							boolean found = false;
-							for (final String otherCurrScope : other.getScope()) {
-								if (otherCurrScope.equals(currScope)) {
-									found = true;
-									break;
-								}
-							}
-							if (!found) {
-								return false;
-							}
-						}
-					}
-				}
-			}
+		} else if (!id.equals(other.id)) {
+			return false;
 		}
-
+		if (licenseName == null) {
+			if (other.licenseName != null) {
+				return false;
+			}
+		} else if (!licenseName.equals(other.licenseName)) {
+			return false;
+		}
+		if (matchType != other.matchType) {
+			return false;
+		}
+		if (projectName == null) {
+			if (other.projectName != null) {
+				return false;
+			}
+		} else if (!projectName.equals(other.projectName)) {
+			return false;
+		}
+		if (scopes == null) {
+			if (other.scopes != null) {
+				return false;
+			}
+		} else if (!scopes.equals(other.scopes)) {
+			return false;
+		}
 		if (version == null) {
 			if (other.version != null) {
 				return false;
@@ -199,7 +186,101 @@ public class BuildDependency implements Serializable {
 		} else if (!version.equals(other.version)) {
 			return false;
 		}
+		if (versionName == null) {
+			if (other.versionName != null) {
+				return false;
+			}
+		} else if (!versionName.equals(other.versionName)) {
+			return false;
+		}
+		if (vulnerabilityCounts == null) {
+			if (other.vulnerabilityCounts != null) {
+				return false;
+			}
+		} else if (!vulnerabilityCounts.equals(other.vulnerabilityCounts)) {
+			return false;
+		}
 		return true;
+	}
+
+	public String getGroup() {
+		return group;
+	}
+
+	public String getArtifact() {
+		return artifact;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public String getClassifier() {
+		return classifier;
+	}
+
+	public void setClassifier(final String classifier) {
+		this.classifier = classifier;
+	}
+
+	public Set<String> getScopes() {
+		return scopes;
+	}
+
+	public void setScopes(final Set<String> scopes) {
+		this.scopes = scopes;
+	}
+
+	public String getExtension() {
+		return extension;
+	}
+
+	public void setExtension(final String extension) {
+		this.extension = extension;
+	}
+
+	public MatchType getMatchType() {
+		return matchType;
+	}
+
+	public void setMatchType(final MatchType matchType) {
+		this.matchType = matchType;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(final String projectName) {
+		this.projectName = projectName;
+	}
+
+	public String getVersionName() {
+		return versionName;
+	}
+
+	public void setVersionName(final String versionName) {
+		this.versionName = versionName;
+	}
+
+	public String getLicenseName() {
+		return licenseName;
+	}
+
+	public void setLicenseName(final String licenseName) {
+		this.licenseName = licenseName;
+	}
+
+	public VulnerabilityCounts getVulnerabilityCounts() {
+		return vulnerabilityCounts;
+	}
+
+	public void setVulnerabilityCounts(final VulnerabilityCounts vulnerabilityCounts) {
+		this.vulnerabilityCounts = vulnerabilityCounts;
 	}
 
 }

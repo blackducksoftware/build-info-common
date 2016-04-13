@@ -29,50 +29,44 @@ public class BuildArtifact implements Serializable {
 	private String version = null;
 	private String id = null;
 
-	public String getType() {
-		return type;
-	}
-
-	public void setType(final String type) {
-		this.type = type;
-	}
-
-	public String getGroup() {
-		return group;
+	private void setId() {
+		if (null != group && null != artifact && null != version) {
+			id = group + ":" + artifact + ":" + version;
+		} else if (null != artifact && null != version) {
+			id = artifact + ":" + version;
+		}
 	}
 
 	public void setGroup(final String group) {
 		this.group = group;
-	}
-
-	public String getArtifact() {
-		return artifact;
+		setId();
 	}
 
 	public void setArtifact(final String artifact) {
 		this.artifact = artifact;
-	}
-
-	public String getVersion() {
-		return version;
+		setId();
 	}
 
 	public void setVersion(final String version) {
 		this.version = version;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(final String id) {
-		this.id = id;
+		setId();
 	}
 
 	@Override
 	public String toString() {
-		return "BuildArtifact [type=" + type + ", group=" + group + ", artifact=" + artifact + ", version=" + version
-				+ ", id=" + id + "]";
+		final StringBuilder builder = new StringBuilder();
+		builder.append("BuildArtifact [type=");
+		builder.append(type);
+		builder.append(", group=");
+		builder.append(group);
+		builder.append(", artifact=");
+		builder.append(artifact);
+		builder.append(", version=");
+		builder.append(version);
+		builder.append(", id=");
+		builder.append(id);
+		builder.append("]");
+		return builder.toString();
 	}
 
 	@Override
@@ -135,6 +129,30 @@ public class BuildArtifact implements Serializable {
 			return false;
 		}
 		return true;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(final String type) {
+		this.type = type;
+	}
+
+	public String getGroup() {
+		return group;
+	}
+
+	public String getArtifact() {
+		return artifact;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public String getId() {
+		return id;
 	}
 
 }

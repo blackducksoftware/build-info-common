@@ -18,35 +18,32 @@
  *******************************************************************************/
 package com.blackducksoftware.integration.build;
 
+import org.apache.commons.lang3.StringUtils;
+
 public enum MatchType {
 	/**
 	 * This type indicates that the dependency was matched to a specific
 	 * version.
 	 */
-	VERSIONFOUND,
-	/**
-	 * This type indicates that the dependency could not be matched to a
-	 * specific version, but it was matched to a project.
-	 */
-	PROJECTFOUND,
-	/**
-	 * This type indicates that the dependency could not be matched to project
-	 * or version.
-	 */
-	UNMATCHED,
-	/**
-	 * This type indicates that the match type is unknown.
-	 */
+	VERSIONFOUND, /**
+					 * This type indicates that the dependency could not be
+					 * matched to a specific version, but it was matched to a
+					 * project.
+					 */
+	PROJECTFOUND, /**
+					 * This type indicates that the dependency could not be
+					 * matched to project or version.
+					 */
+	UNMATCHED, /**
+				 * This type indicates that the match type is unknown.
+				 */
 	UNKNOWNMATCH;
 
 	public static MatchType getMatchType(final String match) {
-		if (match.equalsIgnoreCase(VERSIONFOUND.toString())) {
-			return MatchType.VERSIONFOUND;
-		} else if (match.equalsIgnoreCase(PROJECTFOUND.toString())) {
-			return MatchType.PROJECTFOUND;
-		} else if (match.equalsIgnoreCase(UNMATCHED.toString())) {
-			return MatchType.UNMATCHED;
-		} else {
+		final String cleanedMatch = StringUtils.trimToEmpty(match).toUpperCase();
+		try {
+			return MatchType.valueOf(cleanedMatch);
+		} catch (final IllegalArgumentException e) {
 			return MatchType.UNKNOWNMATCH;
 		}
 	}

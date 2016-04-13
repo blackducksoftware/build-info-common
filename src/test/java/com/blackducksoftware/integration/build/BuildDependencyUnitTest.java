@@ -22,21 +22,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
-import org.junit.Before;
 import org.junit.Test;
 
 public class BuildDependencyUnitTest {
-	private BuildDependency dependency;
-
-	@Before
-	public void testSetup() {
-		dependency = new BuildDependency();
-	}
-
 	@Test
 	public void testSetGroup() {
+		final BuildDependency dependency = new BuildDependency();
 		dependency.setGroup(null);
 		assertNull(dependency.getGroup());
 		dependency.setGroup("group");
@@ -45,6 +39,7 @@ public class BuildDependencyUnitTest {
 
 	@Test
 	public void testSetArtifact() {
+		final BuildDependency dependency = new BuildDependency();
 		dependency.setArtifact(null);
 		assertNull(dependency.getArtifact());
 		dependency.setArtifact("artifact");
@@ -53,6 +48,7 @@ public class BuildDependencyUnitTest {
 
 	@Test
 	public void testSetVersion() {
+		final BuildDependency dependency = new BuildDependency();
 		dependency.setVersion(null);
 		assertNull(dependency.getVersion());
 		dependency.setVersion("version");
@@ -60,7 +56,23 @@ public class BuildDependencyUnitTest {
 	}
 
 	@Test
+	public void testGetId() {
+		final BuildDependency dependency = new BuildDependency();
+		assertNull(dependency.getId());
+
+		dependency.setVersion("version");
+		assertNull(dependency.getId());
+
+		dependency.setArtifact("artifact");
+		assertEquals(dependency.getId(), "artifact:version");
+
+		dependency.setGroup("group");
+		assertEquals(dependency.getId(), "group:artifact:version");
+	}
+
+	@Test
 	public void testSetClassifier() {
+		final BuildDependency dependency = new BuildDependency();
 		dependency.setClassifier(null);
 		assertNull(dependency.getClassifier());
 
@@ -70,22 +82,20 @@ public class BuildDependencyUnitTest {
 
 	@Test
 	public void testSetScope() {
-		try {
-			dependency.setScope(null);
-			assertNull(dependency.getScope());
+		final BuildDependency dependency = new BuildDependency();
 
-			final ArrayList<String> scopes = new ArrayList<String>();
-			scopes.add("test");
-			dependency.setScope(scopes);
-			assertEquals(dependency.getScope(), scopes);
-		} finally {
-			// reset dependency scopes
-			dependency.setScope(null);
-		}
+		dependency.setScopes(null);
+		assertNull(dependency.getScopes());
+
+		final Set<String> scopes = new HashSet<String>();
+		scopes.add("test");
+		dependency.setScopes(scopes);
+		assertEquals(dependency.getScopes(), scopes);
 	}
 
 	@Test
 	public void testSetExtension() {
+		final BuildDependency dependency = new BuildDependency();
 		dependency.setExtension("Extension");
 		assertEquals(dependency.getExtension(), "Extension");
 
@@ -94,26 +104,86 @@ public class BuildDependencyUnitTest {
 	}
 
 	@Test
-	public void testHashCode() {
-		dependency.setExtension("someString");
-		final int prime = 31;
-		final int hash = prime * prime * prime * (prime * prime * prime + "someString".hashCode());
-		assertEquals(hash, dependency.hashCode());
+	public void testSetMatchType() {
+		final BuildDependency dependency = new BuildDependency();
+		dependency.setMatchType(MatchType.UNMATCHED);
+		assertEquals(MatchType.UNMATCHED, dependency.getMatchType());
+
+		dependency.setMatchType(null);
+		assertNull(dependency.getMatchType());
+	}
+
+	@Test
+	public void testSetProjectName() {
+		final BuildDependency dependency = new BuildDependency();
+		dependency.setProjectName("project");
+		assertEquals(dependency.getProjectName(), "project");
+
+		dependency.setProjectName(null);
+		assertNull(dependency.getProjectName());
+	}
+
+	@Test
+	public void testSetVersionName() {
+		final BuildDependency dependency = new BuildDependency();
+		dependency.setVersionName("version");
+		assertEquals(dependency.getVersionName(), "version");
+
+		dependency.setVersionName(null);
+		assertNull(dependency.getVersionName());
+	}
+
+	@Test
+	public void testSetLicenseName() {
+		final BuildDependency dependency = new BuildDependency();
+		dependency.setLicenseName("license");
+		assertEquals(dependency.getLicenseName(), "license");
+
+		dependency.setLicenseName(null);
+		assertNull(dependency.getLicenseName());
+	}
+
+	@Test
+	public void testSetVulnerabilityCounts() {
+		final BuildDependency dependency = new BuildDependency();
+		final VulnerabilityCounts counts = new VulnerabilityCounts();
+		counts.setLow(0);
+		counts.setMedium(234);
+		counts.setHigh(3);
+		dependency.setVulnerabilityCounts(counts);
+		assertEquals(dependency.getVulnerabilityCounts().getLow(), 0);
+		assertEquals(dependency.getVulnerabilityCounts().getMedium(), 234);
+		assertEquals(dependency.getVulnerabilityCounts().getHigh(), 3);
+
+		dependency.setVulnerabilityCounts(null);
+		assertNull(dependency.getVulnerabilityCounts());
 	}
 
 	@Test
 	public void testEquals() {
+		final BuildDependency dependency = new BuildDependency();
 		final BuildDependency dependency2 = new BuildDependency();
 		dependency2.setArtifact("Equal");
 		dependency2.setClassifier("Equal");
 		dependency2.setExtension("Equal");
 		dependency2.setGroup("Equal");
-
-		final ArrayList<String> scopeList = new ArrayList<String>();
-		scopeList.add("Equal");
-		dependency2.setScope(scopeList);
 		dependency2.setVersion("Equal");
+		dependency2.setMatchType(MatchType.PROJECTFOUND);
+		dependency2.setProjectName("Equal");
+		dependency2.setVersionName("Equal");
+		dependency2.setLicenseName("Equal");
+		final VulnerabilityCounts counts2 = new VulnerabilityCounts();
+		counts2.setLow(0);
+		counts2.setMedium(123);
+		counts2.setHigh(456);
+		dependency2.setVulnerabilityCounts(counts2);
+
+		final Set<String> scopeList = new HashSet<String>();
+		scopeList.add("Equal");
+		dependency2.setScopes(scopeList);
+
 		assertTrue(dependency.equals(dependency));
+
 		assertTrue(!dependency.equals(null));
 		assertTrue(!dependency.equals(this));
 		assertTrue(!dependency.equals(dependency2));
@@ -138,20 +208,80 @@ public class BuildDependencyUnitTest {
 		dependency.setGroup("Equal");
 		assertTrue(!dependency.equals(dependency2));
 
-		final ArrayList<String> scopeList2 = new ArrayList<String>();
+		final Set<String> scopeList2 = new HashSet<String>();
 		scopeList2.add("notEqual");
-		dependency.setScope(scopeList2);
+		dependency.setScopes(scopeList2);
 		assertTrue(!dependency.equals(dependency2));
 
-		scopeList2.remove(0);
-		scopeList2.add("Equal");
-		dependency.setScope(scopeList2);
+		final Set<String> scopeList3 = new HashSet<String>();
+		scopeList3.add("Equal");
+		dependency.setScopes(scopeList3);
 		assertTrue(!dependency.equals(dependency2));
 
 		dependency.setVersion("notEqual");
 		assertTrue(!dependency.equals(dependency2));
 		dependency.setVersion("Equal");
+
+		dependency.setMatchType(MatchType.UNKNOWNMATCH);
+		assertTrue(!dependency.equals(dependency2));
+		dependency.setMatchType(MatchType.PROJECTFOUND);
+		assertTrue(!dependency.equals(dependency2));
+
+		dependency.setProjectName("notEqual");
+		assertTrue(!dependency.equals(dependency2));
+		dependency.setProjectName("Equal");
+		assertTrue(!dependency.equals(dependency2));
+
+		dependency.setVersionName("notEqual");
+		assertTrue(!dependency.equals(dependency2));
+		dependency.setVersionName("Equal");
+		assertTrue(!dependency.equals(dependency2));
+
+		dependency.setLicenseName("notEqual");
+		assertTrue(!dependency.equals(dependency2));
+		dependency.setLicenseName("Equal");
+		assertTrue(!dependency.equals(dependency2));
+
+		final VulnerabilityCounts counts = new VulnerabilityCounts();
+		counts.setLow(15);
+		counts.setMedium(23);
+		counts.setHigh(56);
+
+		dependency.setVulnerabilityCounts(counts);
+		assertTrue(!dependency.equals(dependency2));
+		dependency.setVulnerabilityCounts(counts2);
+
 		assertTrue(dependency.equals(dependency2));
+	}
+
+	@Test
+	public void testToString() {
+		BuildDependency dependency = new BuildDependency();
+
+		dependency = new BuildDependency();
+		assertEquals(
+				"BuildDependency [group=null, artifact=null, version=null, id=null, classifier=null, scopes=[], extension=null, matchType=UNKNOWNMATCH, projectName=null, versionName=null, licenseName=null, vulnerabilityCounts=VulnerabilityCounts [low=0, medium=0, high=0]]",
+				dependency.toString());
+
+		dependency.setArtifact("TEST");
+		dependency.setClassifier("TEST");
+		dependency.setExtension("TEST");
+		dependency.setGroup("TEST");
+		dependency.setVersion("TEST");
+		dependency.setMatchType(MatchType.PROJECTFOUND);
+		dependency.setProjectName("TEST");
+		dependency.setVersionName("TEST");
+		dependency.setLicenseName("TEST");
+		final VulnerabilityCounts counts = new VulnerabilityCounts();
+		counts.setLow(20);
+		counts.setMedium(30);
+		counts.setHigh(40);
+		dependency.setVulnerabilityCounts(counts);
+
+		dependency.getScopes().add("TEST");
+		assertEquals(
+				"BuildDependency [group=TEST, artifact=TEST, version=TEST, id=TEST:TEST:TEST, classifier=TEST, scopes=[TEST], extension=TEST, matchType=PROJECTFOUND, projectName=TEST, versionName=TEST, licenseName=TEST, vulnerabilityCounts=VulnerabilityCounts [low=20, medium=30, high=40]]",
+				dependency.toString());
 	}
 
 }
