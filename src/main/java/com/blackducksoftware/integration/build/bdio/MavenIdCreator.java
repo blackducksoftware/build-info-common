@@ -1,0 +1,21 @@
+package com.blackducksoftware.integration.build.bdio;
+
+import com.blackducksoftware.bdio.model.ExternalIdentifier;
+import com.blackducksoftware.bdio.model.ExternalIdentifierBuilder;
+
+public class MavenIdCreator {
+	private final ExternalIdentifierBuilder externalIdentifierBuilder = ExternalIdentifierBuilder.create();
+
+	public ExternalIdentifier createExternalIdentifier(final Gav gav) {
+		final String groupId = gav.getGroupId();
+		final String artifactId = gav.getArtifactId();
+		final String version = gav.getVersion();
+
+		return externalIdentifierBuilder.maven(groupId, artifactId, version).build().get();
+	}
+
+	public String createId(final Gav gav) {
+		return String.format("maven:%s/%s/%s", gav.getGroupId(), gav.getArtifactId(), gav.getVersion());
+	}
+
+}
