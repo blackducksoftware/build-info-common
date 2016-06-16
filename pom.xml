@@ -27,7 +27,7 @@
     </repository>
     <repository>
       <id>oss.jfrog.org</id>
-      <url>https://oss.jfrog.org</url>
+      <url>http://oss.jfrog.org/artifactory/libs-snapshot/url>
     </repository>
   </repositories>
 
