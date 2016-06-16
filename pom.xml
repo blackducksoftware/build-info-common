@@ -26,8 +26,11 @@
       <url>https://updates.suite.blackducksoftware.com/integrations/</url>
     </repository>
     <repository>
+      <snapshots>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
       <id>oss.jfrog.org</id>
-      <url>https://oss.jfrog.org</url>
+      <url>https://oss.jfrog.org/artifactory/oss-snapshot-local/</url>
     </repository>
   </repositories>
 
