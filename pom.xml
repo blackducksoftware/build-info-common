@@ -25,6 +25,10 @@
       <id>bds-int-public</id>
       <url>https://updates.suite.blackducksoftware.com/integrations/</url>
     </repository>
+    <repository>
+      <id>oss.jfrog.org</id>
+      <url>https://oss.jfrog.org</url>
+    </repository>
   </repositories>
 
   <dependencies>
