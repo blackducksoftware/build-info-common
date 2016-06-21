@@ -9,6 +9,7 @@ import com.blackducksoftware.bdio.io.LinkedDataContext;
 import com.blackducksoftware.bdio.model.BillOfMaterials;
 import com.blackducksoftware.bdio.model.Component;
 import com.blackducksoftware.bdio.model.CreationInfo;
+import com.blackducksoftware.bdio.model.File;
 import com.blackducksoftware.bdio.model.Project;
 
 public class CommonBomFormatter {
@@ -30,9 +31,11 @@ public class CommonBomFormatter {
 			bom.setCreationInfo(CreationInfo.currentTool());
 			bdioWriter.write(bom);
 
-			final Project project = bdioConverter.createProject(root.getGav(), projectName, buildFilePath,
-					root.getChildren());
+			final Project project = bdioConverter.createProject(root.getGav(), projectName, buildFilePath);
 			bdioWriter.write(project);
+
+			final File file = bdioConverter.createFile(buildFilePath, root.getChildren());
+			bdioWriter.write(file);
 
 			for (final DependencyNode child : root.getChildren()) {
 				writeDependencyGraph(bdioWriter, child);

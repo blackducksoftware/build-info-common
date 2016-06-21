@@ -15,8 +15,7 @@ public class BdioConverter {
 		this.bdioIdCreator = bdioIdCreator;
 	}
 
-	public Project createProject(final Gav gav, final String projectName, final String buildFilePath,
-			final List<DependencyNode> children) {
+	public Project createProject(final Gav gav, final String projectName, final String buildFilePath) {
 		final String projectMavenId = bdioIdCreator.createMavenId(gav);
 		final String fileId = bdioIdCreator.createFileId(buildFilePath);
 		final ExternalIdentifier externalIdentifier = bdioIdCreator.createExternalIdentifier(gav);
@@ -26,14 +25,20 @@ public class BdioConverter {
 		project.setName(projectName);
 		project.setVersion(gav.getVersion());
 		project.addExternalIdentifier(externalIdentifier);
-		project.addRelationship(Relationship.dynamicLink(bdioIdCreator.createFileId(buildFilePath)));
+		project.addRelationship(Relationship.dynamicLink(fileId));
+
+		return project;
+	}
+
+	public File createFile(final String buildFilePath, final List<DependencyNode> children) {
+		final String fileId = bdioIdCreator.createFileId(buildFilePath);
 
 		final File file = new File();
 		file.setId(fileId);
 		file.setPath(buildFilePath);
 		addRelationships(file, children);
 
-		return project;
+		return file;
 	}
 
 	public Component createComponent(final Gav gav, final List<DependencyNode> children) {
