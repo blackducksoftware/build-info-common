@@ -19,7 +19,7 @@ public class BdioIdCreator {
 	}
 
 	public String createFileId(final String path) {
-		return String.format("file:", path);
+		return String.format("file:%s", path);
 	}
 
 }
