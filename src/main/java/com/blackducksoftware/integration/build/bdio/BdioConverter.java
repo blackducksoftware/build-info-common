@@ -4,41 +4,24 @@ import java.util.List;
 
 import com.blackducksoftware.bdio.model.Component;
 import com.blackducksoftware.bdio.model.ExternalIdentifier;
-import com.blackducksoftware.bdio.model.File;
 import com.blackducksoftware.bdio.model.Project;
 import com.blackducksoftware.bdio.model.Relationship;
 
 public class BdioConverter {
-	private final BdioIdCreator bdioIdCreator;
+	private final BdioIdCreator bdioIdCreator = new BdioIdCreator();
 
-	public BdioConverter(final BdioIdCreator bdioIdCreator) {
-		this.bdioIdCreator = bdioIdCreator;
-	}
-
-	public Project createProject(final Gav gav, final String projectName, final String buildFilePath) {
-		final String projectMavenId = bdioIdCreator.createMavenId(gav);
-		final String fileId = bdioIdCreator.createFileId(buildFilePath);
+	public Project createProject(final Gav gav, final String projectName, final List<DependencyNode> children) {
+		final String id = bdioIdCreator.createMavenId(gav);
 		final ExternalIdentifier externalIdentifier = bdioIdCreator.createExternalIdentifier(gav);
 
 		final Project project = new Project();
-		project.setId(projectMavenId);
+		project.setId(id);
 		project.setName(projectName);
 		project.setVersion(gav.getVersion());
 		project.addExternalIdentifier(externalIdentifier);
-		project.addRelationship(Relationship.dynamicLink(fileId));
+		addRelationships(project, children);
 
 		return project;
-	}
-
-	public File createFile(final String buildFilePath, final List<DependencyNode> children) {
-		final String fileId = bdioIdCreator.createFileId(buildFilePath);
-
-		final File file = new File();
-		file.setId(fileId);
-		file.setPath(buildFilePath);
-		addRelationships(file, children);
-
-		return file;
 	}
 
 	public Component createComponent(final Gav gav, final List<DependencyNode> children) {
@@ -54,10 +37,10 @@ public class BdioConverter {
 		return component;
 	}
 
-	private void addRelationships(final File file, final List<DependencyNode> children) {
+	private void addRelationships(final Project project, final List<DependencyNode> children) {
 		for (final DependencyNode child : children) {
 			final Gav childGav = child.getGav();
-			file.addRelationship(Relationship.dynamicLink(bdioIdCreator.createMavenId(childGav)));
+			project.addRelationship(Relationship.dynamicLink(bdioIdCreator.createMavenId(childGav)));
 		}
 	}
 
