@@ -18,8 +18,4 @@ public class BdioIdCreator {
 		return String.format("maven:%s/%s/%s", gav.getGroupId(), gav.getArtifactId(), gav.getVersion());
 	}
 
-	public String createFileId(final String path) {
-		return String.format("file:%s", path);
-	}
-
 }

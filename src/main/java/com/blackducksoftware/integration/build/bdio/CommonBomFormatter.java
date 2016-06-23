@@ -9,7 +9,6 @@ import com.blackducksoftware.bdio.io.LinkedDataContext;
 import com.blackducksoftware.bdio.model.BillOfMaterials;
 import com.blackducksoftware.bdio.model.Component;
 import com.blackducksoftware.bdio.model.CreationInfo;
-import com.blackducksoftware.bdio.model.File;
 import com.blackducksoftware.bdio.model.Project;
 
 public class CommonBomFormatter {
@@ -19,8 +18,8 @@ public class CommonBomFormatter {
 		this.bdioConverter = bdioConverter;
 	}
 
-	public void writeProject(final OutputStream outputStream, final String projectName, final String buildFilePath,
-			final DependencyNode root) throws IOException {
+	public void writeProject(final OutputStream outputStream, final String projectName, final DependencyNode root)
+			throws IOException {
 		final LinkedDataContext linkedDataContext = new LinkedDataContext();
 
 		try (BdioWriter bdioWriter = new BdioWriter(linkedDataContext, outputStream)) {
@@ -31,11 +30,8 @@ public class CommonBomFormatter {
 			bom.setCreationInfo(CreationInfo.currentTool());
 			bdioWriter.write(bom);
 
-			final Project project = bdioConverter.createProject(root.getGav(), projectName, buildFilePath);
+			final Project project = bdioConverter.createProject(root.getGav(), projectName, root.getChildren());
 			bdioWriter.write(project);
-
-			final File file = bdioConverter.createFile(buildFilePath, root.getChildren());
-			bdioWriter.write(file);
 
 			for (final DependencyNode child : root.getChildren()) {
 				writeDependencyGraph(bdioWriter, child);
