@@ -5,37 +5,27 @@
   <parent>
     <groupId>com.blackducksoftware.integration</groupId>
     <artifactId>common-maven-parent</artifactId>
-    <version>1.0.1</version>
-    <relativePath>../common-maven-parent</relativePath>
+    <version>1.0.4</version>
   </parent>
 
-  <artifactId>build-info-common</artifactId>
+  <artifactId>build-tool-common</artifactId>
   <version>2.0.4-SNAPSHOT</version>
-  <packaging>jar</packaging>
 
-  <name>Manage a Build Info with artifact and dependencies</name>
+  <name>Build Tool Common</name>
+  <description>Manage a Build Info with artifact and dependencies</description>
+  <url>https://www.github.com/blackducksoftware/build-tool-common</url>
   <inceptionYear>2014</inceptionYear>
 
+  <scm>
+    <connection>scm:git:git://github.com/blackducksoftware/build-tool-common.git/</connection>
+    <developerConnection>scm:git:git@github.com:blackducksoftware/build-tool-common.git</developerConnection>
+    <url>https://www.github.com/blackducksoftware/build-tool-common</url>
+  </scm>
+
   <repositories>
-    <!-- ekerwin(2016-05-24): this is included only to acquire the parent pom, 
-			where this information is sadly duplicated. -->
     <repository>
-      <snapshots>
-        <updatePolicy>always</updatePolicy>
-      </snapshots>
-      <id>bds-int-public</id>
-      <url>https://updates.suite.blackducksoftware.com/integrations</url>
-    </repository>
-    <repository>
-      <id>jcenter-bintray</id>
+      <id>jcenter</id>
       <url>http://jcenter.bintray.com</url>
-    </repository>
-    <repository>
-      <snapshots>
-        <updatePolicy>always</updatePolicy>
-      </snapshots>
-      <id>oss-jfrog-snapshots</id>
-      <url>https://oss.jfrog.org/artifactory/oss-snapshot-local</url>
     </repository>
   </repositories>
 
@@ -67,23 +57,4 @@
       <scope>provided</scope>
     </dependency>
   </dependencies>
-
-  <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>2.7</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-deploy-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
 </project>
