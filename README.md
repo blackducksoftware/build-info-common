@@ -7,11 +7,7 @@ The build-info-common library supplies the java objects that the various recorde
 [![Coverage Status](https://coveralls.io/repos/github/blackducksoftware/build-info-common/badge.svg?branch=master)](https://coveralls.io/github/blackducksoftware/build-info-common?branch=master)
 
 ## Where can I get the latest release? ##
-You can download the latest source from GitHub: https://github.com/blackducksoftware/build-info-common. 
-
-You can download the latest artifact through your preferred dependency management system from BinTray: https://bintray.com/bds/integration/build-info-common/view
-
-Lastly, release tab on GitHub will contain the latest artifacts.
+You can download the latest release from Maven Central.
 
 ## Documentation ##
 All documentation for build-info can be found on the base project:  https://github.com/blackducksoftware/build-info-common/wiki
