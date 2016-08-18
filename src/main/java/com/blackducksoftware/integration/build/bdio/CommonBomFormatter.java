@@ -2,6 +2,9 @@ package com.blackducksoftware.integration.build.bdio;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import com.blackducksoftware.bdio.io.BdioWriter;
@@ -9,10 +12,12 @@ import com.blackducksoftware.bdio.io.LinkedDataContext;
 import com.blackducksoftware.bdio.model.BillOfMaterials;
 import com.blackducksoftware.bdio.model.Component;
 import com.blackducksoftware.bdio.model.CreationInfo;
+import com.blackducksoftware.bdio.model.ExternalIdentifier;
 import com.blackducksoftware.bdio.model.Project;
 
 public class CommonBomFormatter {
 	private final BdioConverter bdioConverter;
+	private final Set<String> externalIds = new HashSet<>();
 
 	public CommonBomFormatter(final BdioConverter bdioConverter) {
 		this.bdioConverter = bdioConverter;
@@ -50,7 +55,17 @@ public class CommonBomFormatter {
 	private void writeDependencyNode(final BdioWriter writer, final DependencyNode dependencyNode) throws IOException {
 		final Component component = bdioConverter.createComponent(dependencyNode.getGav(),
 				dependencyNode.getChildren());
-		writer.write(component);
+		final List<ExternalIdentifier> externalIdentifiers = component.getExternalIdentifiers();
+		boolean alreadyAdded = false;
+		for (final ExternalIdentifier externalIdentifier : externalIdentifiers) {
+			if (!externalIds.add(externalIdentifier.getExternalId())) {
+				alreadyAdded = true;
+			}
+		}
+
+		if (!alreadyAdded) {
+			writer.write(component);
+		}
 	}
 
 }
