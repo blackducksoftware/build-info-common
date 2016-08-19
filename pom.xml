@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>build-tool-common</artifactId>
-  <version>2.0.6</version>
+  <version>2.0.7-SNAPSHOT</version>
 
   <name>Build Tool Common</name>
   <description>Manage a Build Info with artifact and dependencies</description>
