@@ -30,7 +30,7 @@ public class BuildDependency {
 	private String version;
 	private String id;
 	private String classifier;
-	private Set<String> scopes = new HashSet<String>();;
+	private Set<String> scopes = new HashSet<>();;
 	private String extension;
 	private MatchType matchType = MatchType.UNKNOWNMATCH;
 	private String projectName;
@@ -39,9 +39,9 @@ public class BuildDependency {
 	private VulnerabilityCounts vulnerabilityCounts = new VulnerabilityCounts();
 
 	private void setId() {
-		if (null != group && null != artifact && null != version) {
+		if (group != null && artifact != null && version != null) {
 			id = group + ":" + artifact + ":" + version;
-		} else if (null != artifact && null != version) {
+		} else if (artifact != null && version != null) {
 			id = artifact + ":" + version;
 		}
 	}

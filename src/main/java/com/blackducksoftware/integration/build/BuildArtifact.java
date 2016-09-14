@@ -33,9 +33,9 @@ public class BuildArtifact implements Serializable {
 	private String id = null;
 
 	private void setId() {
-		if (null != group && null != artifact && null != version) {
+		if (group != null && artifact != null && version != null) {
 			id = group + ":" + artifact + ":" + version;
-		} else if (null != artifact && null != version) {
+		} else if (artifact != null && version != null) {
 			id = artifact + ":" + version;
 		}
 	}
