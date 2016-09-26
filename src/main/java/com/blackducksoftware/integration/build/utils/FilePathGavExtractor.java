@@ -9,19 +9,6 @@ import com.blackducksoftware.integration.build.bdio.Gav;
 public class FilePathGavExtractor {
 	public Gav getMavenPathGav(final String filePath, final String localMavenRepoPath) {
 		final String[] filePathSegments = filePath.split(File.separator);
-		// final String[] m2RepoSegments =
-		// localMavenRepoPath.split(File.separator);
-		// final String[] groupIdSegments = Arrays.copyOfRange(filePathSegments,
-		// m2RepoSegments.length,
-		// filePathSegments.length - 3);
-
-		// final StringBuilder groupIdBuilder = new StringBuilder();
-		// for (int i = 0; i < groupIdSegments.length; i++) {
-		// groupIdBuilder.append(groupIdSegments[i]);
-		// if (i < groupIdSegments.length - 1) {
-		// groupIdBuilder.append(".");
-		// }
-		// }
 
 		final String cleanedFilePath = filePath.replace(localMavenRepoPath, "");
 		final String[] groupIdSegments = cleanedFilePath.split(File.separator);
