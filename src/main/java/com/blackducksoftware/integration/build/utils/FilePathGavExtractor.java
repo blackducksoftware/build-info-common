@@ -1,47 +1,34 @@
 package com.blackducksoftware.integration.build.utils;
 
 import java.io.File;
-import java.util.Arrays;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.blackducksoftware.integration.build.bdio.Gav;
 
 public class FilePathGavExtractor {
+	public Gav getMavenPathGav(final String filePath, final String localMavenRepoPath) {
+		final String[] filePathSegments = filePath.split(File.separator);
 
-	private static String makeMessage(final String groupId, final String artifactId, final String version) {
-		final StringBuilder sb = new StringBuilder();
-		sb.append("group: ");
-		sb.append(groupId);
-		sb.append(", ");
-		sb.append("artifact: ");
-		sb.append(artifactId);
-		sb.append(", ");
-		sb.append("version: ");
-		sb.append(version);
-		return sb.toString();
-	}
+		final String cleanedFilePath = filePath.replace(localMavenRepoPath, "");
+		final String[] groupIdSegments = cleanedFilePath.split(File.separator);
 
-	public static String getMavenPathGav(final String jarPath, final String localMavenRepoPath) {
-		final String[] filePathSegments = jarPath.split(File.separator);
-		final String[] m2RepoSegments = localMavenRepoPath.split(File.separator);
-		final String[] groupIdSegments = Arrays.copyOfRange(filePathSegments, m2RepoSegments.length,
-				filePathSegments.length - 3);
-		final StringBuilder groupIdBuilder = new StringBuilder();
-		for (int i = 0; i < groupIdSegments.length; i++) {
-			groupIdBuilder.append(groupIdSegments[i]);
-			if (i < groupIdSegments.length - 1) {
-				groupIdBuilder.append(".");
-			}
-		}
-		final String groupId = groupIdBuilder.toString();
+		final String groupId = StringUtils.join(groupIdSegments, ".");
 		final String artifactId = filePathSegments[filePathSegments.length - 3];
 		final String version = filePathSegments[filePathSegments.length - 2];
-		return makeMessage(groupId, artifactId, version);
+
+		return new Gav(groupId, artifactId, version);
 
 	}
 
-	public static String getGradlePathGav(final String filePath) {
+	public Gav getGradlePathGav(final String filePath) {
 		final String[] filePathSegments = filePath.split(File.separator);
+
 		final String groupId = filePathSegments[filePathSegments.length - 5];
 		final String artifactId = filePathSegments[filePathSegments.length - 4];
 		final String version = filePathSegments[filePathSegments.length - 3];
-		return makeMessage(groupId, artifactId, version);
+
+		return new Gav(groupId, artifactId, version);
 	}
+
 }
