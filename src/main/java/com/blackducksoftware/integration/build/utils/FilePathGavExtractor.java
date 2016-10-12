@@ -4,7 +4,7 @@ import java.io.File;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.blackducksoftware.integration.build.bdio.Gav;
+import com.blackducksoftware.integration.build.Gav;
 
 public class FilePathGavExtractor {
 	public Gav getMavenPathGav(final String filePath, final String localMavenRepoPath) {

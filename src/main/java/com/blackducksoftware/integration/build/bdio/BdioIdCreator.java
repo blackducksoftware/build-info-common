@@ -2,6 +2,7 @@ package com.blackducksoftware.integration.build.bdio;
 
 import com.blackducksoftware.bdio.model.ExternalIdentifier;
 import com.blackducksoftware.bdio.model.ExternalIdentifierBuilder;
+import com.blackducksoftware.integration.build.Gav;
 
 public class BdioIdCreator {
 	private final ExternalIdentifierBuilder externalIdentifierBuilder = ExternalIdentifierBuilder.create();

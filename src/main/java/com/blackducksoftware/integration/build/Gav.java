@@ -1,4 +1,4 @@
-package com.blackducksoftware.integration.build.bdio;
+package com.blackducksoftware.integration.build;
 
 public class Gav {
 	private final String groupId;
@@ -21,6 +21,11 @@ public class Gav {
 
 	public String getVersion() {
 		return version;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%s:%s:%s", groupId, artifactId, version);
 	}
 
 }

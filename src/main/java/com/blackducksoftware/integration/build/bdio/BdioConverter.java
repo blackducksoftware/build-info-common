@@ -6,6 +6,8 @@ import com.blackducksoftware.bdio.model.Component;
 import com.blackducksoftware.bdio.model.ExternalIdentifier;
 import com.blackducksoftware.bdio.model.Project;
 import com.blackducksoftware.bdio.model.Relationship;
+import com.blackducksoftware.integration.build.DependencyNode;
+import com.blackducksoftware.integration.build.Gav;
 
 public class BdioConverter {
 	private final BdioIdCreator bdioIdCreator = new BdioIdCreator();

@@ -1,4 +1,4 @@
-package com.blackducksoftware.integration.build.bdio;
+package com.blackducksoftware.integration.build;
 
 import java.util.List;
 

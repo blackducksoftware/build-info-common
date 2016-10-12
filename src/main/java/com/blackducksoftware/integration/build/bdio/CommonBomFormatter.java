@@ -14,6 +14,7 @@ import com.blackducksoftware.bdio.model.Component;
 import com.blackducksoftware.bdio.model.CreationInfo;
 import com.blackducksoftware.bdio.model.ExternalIdentifier;
 import com.blackducksoftware.bdio.model.Project;
+import com.blackducksoftware.integration.build.DependencyNode;
 
 public class CommonBomFormatter {
 	private final BdioConverter bdioConverter;

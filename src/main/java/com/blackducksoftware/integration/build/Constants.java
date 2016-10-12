@@ -1,4 +1,4 @@
-package com.blackducksoftware.integration.build.bdio;
+package com.blackducksoftware.integration.build;
 
 public class Constants {
 	public static final String BDIO_FILE_SUFFIX = "_bdio.jsonld";
