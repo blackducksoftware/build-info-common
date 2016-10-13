@@ -13,10 +13,13 @@ import com.blackducksoftware.integration.build.bdio.BdioConverter;
 import com.blackducksoftware.integration.build.bdio.CommonBomFormatter;
 
 public class BdioDependencyWriter {
-	Logger logger = LoggerFactory.getLogger(BdioDependencyWriter.class);
+	private final Logger logger = LoggerFactory.getLogger(BdioDependencyWriter.class);
 
 	public void write(final File outputDirectory, final String filename, final String hubProjectName,
 			final DependencyNode rootNode) throws IOException {
+		final BdioConverter bdioConverter = new BdioConverter();
+		final CommonBomFormatter commonBomFormatter = new CommonBomFormatter(bdioConverter);
+
 		// if the directory doesn't exist yet, let's create it
 		outputDirectory.mkdirs();
 
@@ -24,10 +27,8 @@ public class BdioDependencyWriter {
 		logger.info(String.format("Generating file: %s", file.getCanonicalPath()));
 
 		try (final OutputStream outputStream = new FileOutputStream(file)) {
-			final BdioConverter bdioConverter = new BdioConverter();
-			final CommonBomFormatter commonBomFormatter = new CommonBomFormatter(bdioConverter);
 			commonBomFormatter.writeProject(outputStream, hubProjectName, rootNode);
 		}
-
 	}
+
 }
