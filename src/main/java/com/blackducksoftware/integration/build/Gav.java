@@ -1,31 +1,33 @@
 package com.blackducksoftware.integration.build;
 
 public class Gav {
-	private final String groupId;
-	private final String artifactId;
-	private final String version;
+    private final String groupId;
 
-	public Gav(final String groupId, final String artifactId, final String version) {
-		this.groupId = groupId;
-		this.artifactId = artifactId;
-		this.version = version;
-	}
+    private final String artifactId;
 
-	public String getGroupId() {
-		return groupId;
-	}
+    private final String version;
 
-	public String getArtifactId() {
-		return artifactId;
-	}
+    public Gav(final String groupId, final String artifactId, final String version) {
+        this.groupId = groupId;
+        this.artifactId = artifactId;
+        this.version = version;
+    }
 
-	public String getVersion() {
-		return version;
-	}
+    public String getGroupId() {
+        return groupId;
+    }
 
-	@Override
-	public String toString() {
-		return String.format("%s:%s:%s", groupId, artifactId, version);
-	}
+    public String getArtifactId() {
+        return artifactId;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s:%s:%s", groupId, artifactId, version);
+    }
 
 }

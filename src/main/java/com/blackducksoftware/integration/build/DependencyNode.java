@@ -3,20 +3,21 @@ package com.blackducksoftware.integration.build;
 import java.util.List;
 
 public class DependencyNode {
-	private final Gav gav;
-	private final List<DependencyNode> children;
+    private final Gav gav;
 
-	public DependencyNode(final Gav gav, final List<DependencyNode> children) {
-		this.gav = gav;
-		this.children = children;
-	}
+    private final List<DependencyNode> children;
 
-	public Gav getGav() {
-		return gav;
-	}
+    public DependencyNode(final Gav gav, final List<DependencyNode> children) {
+        this.gav = gav;
+        this.children = children;
+    }
 
-	public List<DependencyNode> getChildren() {
-		return children;
-	}
+    public Gav getGav() {
+        return gav;
+    }
+
+    public List<DependencyNode> getChildren() {
+        return children;
+    }
 
 }
