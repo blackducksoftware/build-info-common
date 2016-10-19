@@ -20,6 +20,10 @@ import com.blackducksoftware.integration.build.DependencyNode;
 public class FlatDependencyListWriter {
     private final Logger logger = LoggerFactory.getLogger(BdioDependencyWriter.class);
 
+    public static String getFilename(String hubProjectName) {
+        return hubProjectName + Constants.FLAT_FILE_SUFFIX;
+    }
+
     public void write(final File outputDirectory, final String hubProjectName, final DependencyNode rootNode)
             throws IOException {
         final Set<String> gavStrings = new HashSet<>();
@@ -30,7 +34,7 @@ public class FlatDependencyListWriter {
         // if the directory doesn't exist yet, let's create it
         outputDirectory.mkdirs();
 
-        String filename = hubProjectName + Constants.FLAT_FILE_SUFFIX;
+        String filename = getFilename(hubProjectName);
         final File file = new File(outputDirectory, filename);
         logger.info(String.format("Generating file: %s", file.getCanonicalPath()));
 
