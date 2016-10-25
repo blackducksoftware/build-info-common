@@ -66,4 +66,8 @@ public class Constants {
 
     public static final String DEPLOY_HUB_OUTPUT_AND_CHECK_POLICIES_FINISHED = "Black Duck Hub deploying: %s for checking latest policy status finished.";
 
+    public static final String UPLOAD_FILE_MESSAGE = "Uploaded the file %s to %s";
+
+    public static final String SCAN_ERROR_MESSAGE = "There was an error waiting for the scans: %s";
+
 }
