@@ -14,7 +14,7 @@ public class FilePathGavExtractor {
 			return null;
 		}
 
-		final String cleanedFilePath = filePath.replace(localMavenRepoPath, "");
+		final String cleanedFilePath = filePath.replaceFirst(localMavenRepoPath, "");
 		final String[] cleanedFilePathSegments = cleanedFilePath.split(File.separator);
 
 		String[] groupIdSegments;
