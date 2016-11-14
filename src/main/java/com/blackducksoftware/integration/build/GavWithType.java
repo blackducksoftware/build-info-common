@@ -30,4 +30,26 @@ public class GavWithType {
         return type;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((gav == null) ? 0 : gav.hashCode());
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        GavWithType other = (GavWithType) obj;
+        if (gav == null) {
+            if (other.gav != null) return false;
+        } else if (!gav.equals(other.gav)) return false;
+        if (type != other.type) return false;
+        return true;
+    }
+
 }
