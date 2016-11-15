@@ -13,9 +13,9 @@ package com.blackducksoftware.integration.build;
 
 public class GavWithType {
 
-    private Gav gav;
+    private final Gav gav;
 
-    private GavTypeEnum type;
+    private final GavTypeEnum type;
 
     public GavWithType(Gav gav, GavTypeEnum type) {
         this.gav = gav;
