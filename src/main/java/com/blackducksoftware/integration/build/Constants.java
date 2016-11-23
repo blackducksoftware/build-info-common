@@ -62,12 +62,6 @@ public class Constants {
 
     public static final String FAILED_TO_CREATE_REPORT = "Could not create Hub Report, check the logs for specific issues: %s";
 
-    public static final String DEPLOY_HUB_OUTPUT_AND_CREATE_REPORT = "deployHubOutputAndCreateReport";
-
-    public static final String DEPLOY_HUB_OUTPUT_AND_CREATE_REPORT_STARTING = "Black Duck Hub deploying: %s for report starting.";
-
-    public static final String DEPLOY_HUB_OUTPUT_AND_CREATE_REPORT_FINISHED = "Black Duck Hub deploying: %s for report finished.";
-
     public static final String DEPLOY_HUB_OUTPUT_AND_CHECK_POLICIES = "deployHubOutputAndCheckPolicies";
 
     public static final String DEPLOY_HUB_OUTPUT_AND_CHECK_POLICIES_STARTING = "Black Duck Hub deploying: %s for checking latest policy status starting.";
