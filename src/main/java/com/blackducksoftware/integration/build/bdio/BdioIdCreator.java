@@ -39,5 +39,4 @@ public class BdioIdCreator {
     public String createMavenId(final Gav gav) {
         return String.format("mvn:%s/%s/%s", gav.getGroupId(), gav.getArtifactId(), gav.getVersion());
     }
-
 }
