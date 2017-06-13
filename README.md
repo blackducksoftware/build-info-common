@@ -4,7 +4,7 @@ The build-info-common library supplies the java objects that the various recorde
 ## Build ##
 
 [![Build Status](https://travis-ci.org/blackducksoftware/build-info-common.svg?branch=master)](https://travis-ci.org/blackducksoftware/build-info-common)
-[![Coverage Status](https://coveralls.io/repos/github/blackducksoftware/build-info-common/badge.svg?branch=master)](https://coveralls.io/github/blackducksoftware/build-info-common?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/blackducksoftware/build-info-common/badge.svg?branch=master)](https://coveralls.io/github/blackducksoftware/build-info-common?branch=master) [![Black Duck Security Risk](https://copilot.blackducksoftware.com/github/groups/blackducksoftware/locations/build-tool-common/public/results/branches/master/badge-risk.svg)](https://copilot.blackducksoftware.com/github/groups/blackducksoftware/locations/build-tool-common/public/results/branches/master)
 
 ## Where can I get the latest release? ##
 You can download the latest release from Maven Central.
